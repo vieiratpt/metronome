@@ -16,6 +16,17 @@ ApplicationWindow {
             text: "Beats Per Bar"
         }
 
+        Label {
+            text: beatsPerMinuteSlider.value
+        }
+        Slider {
+            id: beatsPerMinuteSlider
+            from: 20
+            to: 250
+            value: 100
+            onMoved: Metronome.setBeatsPerMinute(value)
+        }
+
         RowLayout {
             id: beatsPerBarSelection
             RadioButton {
