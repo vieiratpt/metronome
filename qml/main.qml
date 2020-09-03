@@ -1,27 +1,76 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
-import QtMultimedia 5.8
+
+import Metronome 1.0
 
 ApplicationWindow {
     id: window
     title: "Metronome"
     visible: true
-    height: 400
-    width: 600
+    height: 300
+    width: 400
 
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
+    ColumnLayout {
+        Label {
+            text: "Beats Per Bar"
+        }
 
-    Rectangle {
-        width: 200
-        height: 100
-        color: "red"
+        RowLayout {
+            id: beatsPerBarSelection
+            RadioButton {
+                text: "1"
+                onClicked: Metronome.setBeatsPerBar(1)
+            }
 
-        Text {
-            anchors.centerIn: parent
-            text: "Hello, World!"
+            RadioButton {
+                text: "2"
+                onClicked: Metronome.setBeatsPerBar(2)
+            }
+
+            RadioButton {
+                text: "3"
+                onClicked: Metronome.setBeatsPerBar(3)
+            }
+
+            RadioButton {
+                checked: true
+                text: "4"
+                onClicked: Metronome.setBeatsPerBar(4)
+            }
+        }
+
+        Label {
+            text: "Clicks Per Beat"
+        }
+
+        RowLayout {
+            id: clicksPerBeatSelection
+            RadioButton {
+                checked: true
+                text: "1"
+                onClicked: Metronome.setClicksPerBeat(1)
+            }
+
+            RadioButton {
+                text: "2"
+                onClicked: Metronome.setClicksPerBeat(2)
+            }
+
+            RadioButton {
+                text: "3"
+                onClicked: Metronome.setClicksPerBeat(3)
+            }
+
+            RadioButton {
+                text: "4"
+                onClicked: Metronome.setClicksPerBeat(4)
+            }
+        }
+
+        Button {
+            id: playButton
+            text: "PLAY"
         }
     }
 }
