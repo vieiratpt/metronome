@@ -82,6 +82,7 @@ ApplicationWindow {
         Button {
             id: playButton
             text: "PLAY"
+            onClicked: Metronome.play()
         }
     }
 }
