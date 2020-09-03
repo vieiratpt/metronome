@@ -1,6 +1,7 @@
-# Populate a CMake variable with the sources
+set(CMAKE_AUTOMOC ON)
 set(SRCS
     main.cpp
+    metronome.cpp
 )
 
 qt5_add_resources(RESOURCES ../resources.qrc)

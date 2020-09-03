@@ -1,10 +1,14 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include <QQuickStyle>
+
+#include "metronome.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QQuickStyle::setStyle("Material");
+
+    Metronome metronome();
+
+    qmlRegisterSingletonType<Metronome>("Metronome", 1, 0, "Metronome", Metronome::provider);
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine appEngine("qrc:/main.qml");
