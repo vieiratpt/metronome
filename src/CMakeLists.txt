@@ -10,6 +10,7 @@ add_executable(metronome ${SRCS} ${RESOURCES})
 
 target_link_libraries(metronome
     Qt5::Core
+    Qt5::Multimedia
     Qt5::Qml
     Qt5::QuickControls2
     Qt5::Quick

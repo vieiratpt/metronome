@@ -14,10 +14,11 @@ ApplicationWindow {
     property bool playing: false
 
     ColumnLayout {
-        Label {
-            text: "Beats Per Bar"
-        }
+        anchors.centerIn: parent
 
+        Label {
+            text: "Beats Per Minute"
+        }
         Label {
             text: beatsPerMinuteSlider.value
         }
@@ -29,6 +30,9 @@ ApplicationWindow {
             onMoved: Metronome.setBeatsPerMinute(value)
         }
 
+        Label {
+            text: "Beats Per Bar"
+        }
         RowLayout {
             id: beatsPerBarSelection
             RadioButton {
@@ -56,7 +60,6 @@ ApplicationWindow {
         Label {
             text: "Clicks Per Beat"
         }
-
         RowLayout {
             id: clicksPerBeatSelection
             RadioButton {

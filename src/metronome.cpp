@@ -1,46 +1,58 @@
 #include "metronome.h"
 
 #include <QDebug>
+#include <QSound>
 
 Metronome::Metronome(QObject *parent) : QObject(parent) {
     setObjectName(QStringLiteral("Metronome"));
 }
 
 quint8 Metronome::beatsPerBar() {
-    qDebug() << "Get BPB" << _beatsPerBar;
     return _beatsPerBar;
 }
 
 quint8 Metronome::clicksPerBeat() {
-    qDebug() << "Get CPB" << _clicksPerBeat;
     return _clicksPerBeat;
 }
 
 quint8 Metronome::beatsPerMinute() {
-    qDebug() << "Get BPM" << _beatsPerMinute;
     return _beatsPerMinute;
 }
 
+quint8 Metronome::beat() {
+    return _beat;
+}
+
 void Metronome::setBeatsPerBar(quint8 value) {
-    qDebug() << "BPB Selection" << value;
     _beatsPerBar = value;
+    qDebug() << "BPB Selection" << value;
 }
 
 void Metronome::setClicksPerBeat(quint8 value) {
-    qDebug() << "CPB Selection" << value;
     _clicksPerBeat = value;
+    qDebug() << "CPB Selection" << value;
 }
 
 void Metronome::setBeatsPerMinute(quint8 value) {
-    qDebug() << "BPM Attribution" << value;
     _beatsPerMinute = value;
+    qDebug() << "BPM Attribution" << value;
+}
+
+void Metronome::setBeat(quint8 value) {
+    _beat = 0;
+    qDebug() << "Beat Attribution" << beat();
+}
+
+void Metronome::incrementBeat() {
+    _beat = (beat()) % beatsPerBar() + 1;
+    qDebug() << "Beat Increment" << beat();
 }
 
 void Metronome::play() {
     if(!timer) {
         timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, &Metronome::beep);
-        int interval = 60000 / _beatsPerMinute / _clicksPerBeat;
+        quint16 interval = 60000 / beatsPerMinute() / clicksPerBeat();
         qDebug() << "Interval" << interval;
         timer->start(interval);
     }
@@ -50,13 +62,21 @@ void Metronome::play() {
 }
 
 void Metronome::stop() {
-    qDebug() << "Stop playing!";
-    delete timer;
-    timer = NULL;
+    if(!timer) {
+        qDebug() << "Metronome is not playing";
+    }
+    else {
+        qDebug() << "Stop playing!";
+        delete timer;
+        timer = NULL;
+        setBeat(0);
+    }
 }
 
 void Metronome::beep() {
     qDebug() << "Beep!";
+    incrementBeat();
+    QSound::play("qrc:/beep.wav");
 }
 
 QObject* Metronome::provider(QQmlEngine *engine, QJSEngine *scriptEngine) {
