@@ -1,48 +1,58 @@
 #include "metronome.h"
 
-#include <QTimer>
 #include <QDebug>
 
 Metronome::Metronome(QObject *parent) : QObject(parent) {
     setObjectName(QStringLiteral("Metronome"));
 }
 
-int Metronome::beatsPerBar() {
+quint8 Metronome::beatsPerBar() {
     qDebug() << "Get BPB" << _beatsPerBar;
     return _beatsPerBar;
 }
 
-int Metronome::clicksPerBeat() {
+quint8 Metronome::clicksPerBeat() {
     qDebug() << "Get CPB" << _clicksPerBeat;
     return _clicksPerBeat;
 }
 
-int Metronome::beatsPerMinute() {
+quint8 Metronome::beatsPerMinute() {
     qDebug() << "Get BPM" << _beatsPerMinute;
     return _beatsPerMinute;
 }
 
-void Metronome::setBeatsPerBar(int value) {
+void Metronome::setBeatsPerBar(quint8 value) {
     qDebug() << "BPB Selection" << value;
     _beatsPerBar = value;
 }
 
-void Metronome::setClicksPerBeat(int value) {
+void Metronome::setClicksPerBeat(quint8 value) {
     qDebug() << "CPB Selection" << value;
     _clicksPerBeat = value;
 }
 
-void Metronome::setBeatsPerMinute(int value) {
+void Metronome::setBeatsPerMinute(quint8 value) {
     qDebug() << "BPM Attribution" << value;
     _beatsPerMinute = value;
 }
 
 void Metronome::play() {
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &Metronome::beep);
-    int interval = 60000 / _beatsPerMinute / _clicksPerBeat;
-    qDebug() << "Interval" << interval;
-    timer->start(interval);
+    if(!timer) {
+        timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, this, &Metronome::beep);
+        int interval = 60000 / _beatsPerMinute / _clicksPerBeat;
+        qDebug() << "Interval" << interval;
+        timer->start(interval);
+    }
+    else {
+        qDebug() << "Metronome already playing";
+    }
+}
+
+void Metronome::stop() {
+    qDebug() << "Stop playing!";
+    delete timer;
+    timer = NULL;
 }
 
 void Metronome::beep() {

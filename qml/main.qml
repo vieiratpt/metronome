@@ -11,6 +11,8 @@ ApplicationWindow {
     height: 300
     width: 400
 
+    property bool playing: false
+
     ColumnLayout {
         Label {
             text: "Beats Per Bar"
@@ -81,8 +83,19 @@ ApplicationWindow {
 
         Button {
             id: playButton
-            text: "PLAY"
-            onClicked: Metronome.play()
+            text: playing ? "STOP" : "PLAY"
+            onClicked: {
+                if(playing) {
+                    playing = false
+                    Metronome.stop()
+                    console.log("playing " + playing)
+                }
+                else {
+                    playing = true
+                    Metronome.play()
+                    console.log("playing " + playing)
+                }
+            }
         }
     }
 }
