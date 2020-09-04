@@ -10,8 +10,6 @@ public:
     Metronome(QObject *parent = nullptr);
     ~Metronome() {}
 
-    static Metronome* self();
-
     quint8 beatsPerBar();
     quint8 clicksPerBeat();
     quint8 beatsPerMinute();
