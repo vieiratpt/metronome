@@ -91,12 +91,10 @@ ApplicationWindow {
                 if(playing) {
                     playing = false
                     Metronome.stop()
-                    console.log("playing " + playing)
                 }
                 else {
                     playing = true
                     Metronome.play()
-                    console.log("playing " + playing)
                 }
             }
         }

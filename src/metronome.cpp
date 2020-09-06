@@ -23,31 +23,40 @@ quint8 Metronome::beat() {
     return _beat;
 }
 
+quint8 Metronome::click() {
+    return _click;
+}
+
 void Metronome::setBeatsPerBar(quint8 value) {
     _beatsPerBar = value;
-    qDebug() << "BPB Selection" << value;
 }
 
 void Metronome::setClicksPerBeat(quint8 value) {
     _clicksPerBeat = value;
-    qDebug() << "CPB Selection" << value;
+    updateInterval();
 }
 
 void Metronome::setBeatsPerMinute(quint8 value) {
     _beatsPerMinute = value;
-    qDebug() << "BPM Attribution" << value;
+    updateInterval();
 }
 
 void Metronome::setBeat(quint8 value) {
-    _beat = 0;
+    _beat = value;
     emit beatChanged();
-    qDebug() << "Beat Attribution" << beat();
+}
+
+void Metronome::setClick(quint8 value) {
+    _click = value;
 }
 
 void Metronome::incrementBeat() {
-    _beat = (beat()) % beatsPerBar() + 1;
+    _beat = beat() % beatsPerBar() + 1;
     emit beatChanged();
-    qDebug() << "Beat Increment" << beat();
+}
+
+void Metronome::incrementClick() {
+    _click = click() % clicksPerBeat() + 1;
 }
 
 void Metronome::play() {
@@ -55,7 +64,8 @@ void Metronome::play() {
         timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, &Metronome::beep);
         quint16 interval = 60000 / beatsPerMinute() / clicksPerBeat();
-        qDebug() << "Interval" << interval;
+        setClick(clicksPerBeat());
+        beep();
         timer->start(interval);
     }
     else {
@@ -68,7 +78,6 @@ void Metronome::stop() {
         qDebug() << "Metronome is not playing";
     }
     else {
-        qDebug() << "Stop playing!";
         delete timer;
         timer = NULL;
         setBeat(0);
@@ -76,13 +85,23 @@ void Metronome::stop() {
 }
 
 void Metronome::beep() {
-    qDebug() << "Beep!";
-    incrementBeat();
-    if(beat() == 1) {
+    if(click() == clicksPerBeat()) {
+        incrementBeat();
+    }
+    incrementClick();
+
+    if(beat() == 1 and click() == 1) {
         QSound::play("qrc:/beep_high.wav");
     }
     else {
         QSound::play("qrc:/beep_low.wav");
+    }
+}
+
+void Metronome::updateInterval() {
+    if(timer) {
+        quint16 interval = 60000 / beatsPerMinute() / clicksPerBeat();
+        timer->setInterval(interval);
     }
 }
 
