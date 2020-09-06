@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QObject>
 #include <QJSEngine>
 #include <QQmlEngine>
