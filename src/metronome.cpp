@@ -76,7 +76,12 @@ void Metronome::stop() {
 void Metronome::beep() {
     qDebug() << "Beep!";
     incrementBeat();
-    QSound::play("qrc:/beep.wav");
+    if(beat() == 1) {
+        QSound::play("qrc:/beep_high.wav");
+    }
+    else {
+        QSound::play("qrc:/beep_low.wav");
+    }
 }
 
 QObject* Metronome::provider(QQmlEngine *engine, QJSEngine *scriptEngine) {

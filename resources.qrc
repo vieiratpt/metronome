@@ -1,6 +1,7 @@
 <RCC>
     <qresource>
         <file alias="main.qml">qml/main.qml</file>
-        <file alias="beep.wav">audio/beep.wav</file>
+        <file alias="beep_high.wav">audio/beep_high.wav</file>
+        <file alias="beep_low.wav">audio/beep_low.wav</file>
     </qresource>
 </RCC>
