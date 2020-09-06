@@ -8,6 +8,8 @@
 class Metronome : public QObject {
     Q_OBJECT
 
+    Q_PROPERTY(quint8 beat READ beat NOTIFY beatChanged())
+
 public:
     Metronome(QObject *parent = nullptr);
     ~Metronome() {}
@@ -15,7 +17,7 @@ public:
     quint8 beatsPerBar();
     quint8 clicksPerBeat();
     quint8 beatsPerMinute();
-    quint8 beat();
+    Q_INVOKABLE quint8 beat();
     Q_INVOKABLE void setBeatsPerBar(quint8 value);
     Q_INVOKABLE void setClicksPerBeat(quint8 value);
     Q_INVOKABLE void setBeatsPerMinute(quint8 value);
@@ -32,4 +34,7 @@ private:
     quint8 _beatsPerMinute = 100;
     quint8 _beat = 0;
     QTimer *timer = NULL;
+
+signals:
+    void beatChanged();
 };

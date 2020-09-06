@@ -100,5 +100,9 @@ ApplicationWindow {
                 }
             }
         }
+
+        Label {
+            text: Metronome.beat
+        }
     }
 }

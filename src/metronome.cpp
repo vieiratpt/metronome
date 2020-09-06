@@ -40,11 +40,13 @@ void Metronome::setBeatsPerMinute(quint8 value) {
 
 void Metronome::setBeat(quint8 value) {
     _beat = 0;
+    emit beatChanged();
     qDebug() << "Beat Attribution" << beat();
 }
 
 void Metronome::incrementBeat() {
     _beat = (beat()) % beatsPerBar() + 1;
+    emit beatChanged();
     qDebug() << "Beat Increment" << beat();
 }
 
