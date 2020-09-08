@@ -17,7 +17,7 @@ public:
     quint8 beatsPerBar();
     quint8 clicksPerBeat();
     quint8 beatsPerMinute();
-    Q_INVOKABLE quint8 beat();
+    quint8 beat();
     quint8 click();
     Q_INVOKABLE void setBeatsPerBar(quint8 value);
     Q_INVOKABLE void setClicksPerBeat(quint8 value);
