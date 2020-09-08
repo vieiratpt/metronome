@@ -51,8 +51,7 @@ void Metronome::setClick(quint8 value) {
 }
 
 void Metronome::incrementBeat() {
-    _beat = beat() % beatsPerBar() + 1;
-    emit beatChanged();
+    setBeat(beat() % beatsPerBar() + 1);
 }
 
 void Metronome::incrementClick() {
