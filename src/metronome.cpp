@@ -29,6 +29,7 @@ quint8 Metronome::click() {
 
 void Metronome::setBeatsPerBar(quint8 value) {
     _beatsPerBar = value;
+    emit beatsPerBarChanged();
 }
 
 void Metronome::setClicksPerBeat(quint8 value) {

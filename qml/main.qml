@@ -99,8 +99,10 @@ ApplicationWindow {
             }
         }
 
-        Label {
-            text: Metronome.beat
+        ProgressBar {
+            from: 0
+            to: Metronome.beatsPerBar
+            value: Metronome.beat
         }
     }
 }

@@ -9,6 +9,7 @@ class Metronome : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(quint8 beat READ beat NOTIFY beatChanged())
+    Q_PROPERTY(quint8 beatsPerBar READ beatsPerBar NOTIFY beatsPerBarChanged())
 
 public:
     Metronome(QObject *parent = nullptr);
@@ -42,4 +43,5 @@ private:
 
 signals:
     void beatChanged();
+    void beatsPerBarChanged();
 };
