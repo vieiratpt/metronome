@@ -56,7 +56,7 @@ void Metronome::incrementBeat() {
 }
 
 void Metronome::incrementClick() {
-    _click = click() % clicksPerBeat() + 1;
+    setClick(click() % clicksPerBeat() + 1);
 }
 
 void Metronome::play() {
