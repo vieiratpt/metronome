@@ -1,4 +1,5 @@
 set(CMAKE_AUTOMOC ON)
+
 set(SRCS
     main.cpp
     metronome.cpp

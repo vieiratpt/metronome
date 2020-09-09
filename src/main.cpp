@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonType<Metronome>("Metronome", 1, 0, "Metronome", Metronome::provider);
 
     QGuiApplication app(argc, argv);
-    QQmlApplicationEngine appEngine("qrc:/main.qml");
+    QQmlApplicationEngine appEngine(QStringLiteral("qrc:/main.qml"));
 
     return app.exec();
 }

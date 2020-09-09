@@ -1,8 +1,5 @@
 #include "metronome.h"
 
-#include <QDebug>
-#include <QSound>
-
 Metronome::Metronome(QObject *parent) : QObject(parent) {
     setObjectName(QStringLiteral("Metronome"));
 }
@@ -60,13 +57,13 @@ void Metronome::incrementClick() {
 }
 
 void Metronome::play() {
-    if(!timer) {
-        timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, this, &Metronome::beep);
+    if(!_timer) {
+        _timer = new QTimer(this);
+        connect(_timer, &QTimer::timeout, this, &Metronome::beep);
         quint16 interval = 60000 / beatsPerMinute() / clicksPerBeat();
         setClick(clicksPerBeat());
         beep();
-        timer->start(interval);
+        _timer->start(interval);
     }
     else {
         qDebug() << "Metronome already playing";
@@ -74,12 +71,12 @@ void Metronome::play() {
 }
 
 void Metronome::stop() {
-    if(!timer) {
+    if(!_timer) {
         qDebug() << "Metronome is not playing";
     }
     else {
-        delete timer;
-        timer = NULL;
+        delete _timer;
+        _timer = NULL;
         setBeat(0);
     }
 }
@@ -90,18 +87,18 @@ void Metronome::beep() {
     }
     incrementClick();
 
-    if(beat() == 1 and click() == 1) {
-        QSound::play("qrc:/beep_high.wav");
+    if(beat() == 1 && click() == 1) {
+        QSound::play(QStringLiteral("qrc:/beep_high.wav"));
     }
     else {
-        QSound::play("qrc:/beep_low.wav");
+        QSound::play(QStringLiteral("qrc:/beep_low.wav"));
     }
 }
 
 void Metronome::updateInterval() {
-    if(timer) {
+    if(_timer) {
         quint16 interval = 60000 / beatsPerMinute() / clicksPerBeat();
-        timer->setInterval(interval);
+        _timer->setInterval(interval);
     }
 }
 

@@ -1,8 +1,10 @@
 #pragma once
 
-#include <QObject>
+#include <QDebug>
 #include <QJSEngine>
 #include <QQmlEngine>
+#include <QObject>
+#include <QSound>
 #include <QTimer>
 
 class Metronome : public QObject {
@@ -38,8 +40,8 @@ private:
     quint8 _clicksPerBeat = 1;
     quint8 _beatsPerMinute = 100;
     quint8 _beat = 0;
-    quint8 _click = 1;
-    QTimer *timer = NULL;
+    quint8 _click = 0;
+    QTimer *_timer = NULL;
 
 signals:
     void beatChanged();
