@@ -26,7 +26,7 @@ ApplicationWindow {
             id: beatsPerMinuteSlider
             from: 20
             to: 250
-            value: 100
+            value: Metronome.beatsPerMinute
             onMoved: Metronome.setBeatsPerMinute(value)
         }
 
@@ -84,18 +84,26 @@ ApplicationWindow {
             }
         }
 
-        Button {
-            id: playButton
-            text: playing ? "STOP" : "PLAY"
-            onClicked: {
-                if(playing) {
-                    playing = false
-                    Metronome.stop()
+        RowLayout {
+            Button {
+                id: playButton
+                text: playing ? "STOP" : "PLAY"
+                onClicked: {
+                    if(playing) {
+                        playing = false
+                        Metronome.stop()
+                    }
+                    else {
+                        playing = true
+                        Metronome.play()
+                    }
                 }
-                else {
-                    playing = true
-                    Metronome.play()
-                }
+            }
+
+            Button {
+                id: tapButton
+                text: "TAP"
+                onClicked: Metronome.tap()
             }
         }
 

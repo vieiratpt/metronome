@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDebug>
+#include <QElapsedTimer>
 #include <QJSEngine>
 #include <QQmlEngine>
 #include <QObject>
@@ -12,10 +13,18 @@ class Metronome : public QObject {
 
     Q_PROPERTY(quint8 beat READ beat NOTIFY beatChanged())
     Q_PROPERTY(quint8 beatsPerBar READ beatsPerBar NOTIFY beatsPerBarChanged())
+    Q_PROPERTY(quint8 beatsPerMinute READ beatsPerMinute NOTIFY beatsPerMinuteChanged())
 
 public:
     Metronome(QObject *parent = nullptr);
-    ~Metronome() {}
+    ~Metronome() {
+        if(_timer) {
+            delete _timer;
+        }
+        if(_elapsedTimer) {
+            delete _elapsedTimer;
+        }
+    }
 
     quint8 beatsPerBar();
     quint8 clicksPerBeat();
@@ -33,6 +42,7 @@ public:
     Q_INVOKABLE void stop();
     void beep();
     void updateInterval();
+    Q_INVOKABLE void tap();
     static QObject *provider(QQmlEngine *engine, QJSEngine *scriptEngine);
 
 private:
@@ -42,8 +52,10 @@ private:
     quint8 _beat = 0;
     quint8 _click = 0;
     QTimer *_timer = NULL;
+    QElapsedTimer *_elapsedTimer = NULL;
 
 signals:
     void beatChanged();
     void beatsPerBarChanged();
+    void beatsPerMinuteChanged();
 };

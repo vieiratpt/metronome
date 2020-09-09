@@ -37,6 +37,7 @@ void Metronome::setClicksPerBeat(quint8 value) {
 void Metronome::setBeatsPerMinute(quint8 value) {
     _beatsPerMinute = value;
     updateInterval();
+    emit beatsPerMinuteChanged();
 }
 
 void Metronome::setBeat(quint8 value) {
@@ -62,6 +63,10 @@ void Metronome::play() {
         connect(_timer, &QTimer::timeout, this, &Metronome::beep);
         quint16 interval = 60000 / beatsPerMinute() / clicksPerBeat();
         setClick(clicksPerBeat());
+        if(_elapsedTimer) {
+            delete _elapsedTimer;
+            _elapsedTimer = NULL;
+        }
         beep();
         _timer->start(interval);
     }
@@ -99,6 +104,17 @@ void Metronome::updateInterval() {
     if(_timer) {
         quint16 interval = 60000 / beatsPerMinute() / clicksPerBeat();
         _timer->setInterval(interval);
+    }
+}
+
+void Metronome::tap() {
+    if(!_elapsedTimer) {
+        _elapsedTimer = new QElapsedTimer();
+        _elapsedTimer->start();
+    }
+    else {
+        setBeatsPerMinute(quint8 (60000 / _elapsedTimer->elapsed()));
+        _elapsedTimer->restart();
     }
 }
 
