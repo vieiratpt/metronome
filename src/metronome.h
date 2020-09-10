@@ -21,12 +21,8 @@ class Metronome : public QObject {
 public:
     Metronome(QObject *parent = nullptr);
     ~Metronome() {
-        if(_timer) {
-            delete _timer;
-        }
-        if(_elapsedTimer) {
-            delete _elapsedTimer;
-        }
+        deleteTimer();
+        deleteElapsedTimer();
     }
 
     quint8 beatsPerBar();
@@ -43,9 +39,11 @@ public:
     void incrementClick();
     Q_INVOKABLE void play();
     Q_INVOKABLE void stop();
+    Q_INVOKABLE void tap();
     void beep();
     void updateInterval();
-    Q_INVOKABLE void tap();
+    void deleteTimer();
+    void deleteElapsedTimer();
     static QObject *provider(QQmlEngine *engine, QJSEngine *scriptEngine);
 
 private:

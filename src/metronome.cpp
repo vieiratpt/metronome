@@ -59,30 +59,38 @@ void Metronome::incrementClick() {
 
 void Metronome::play() {
     if(!_timer) {
+        deleteElapsedTimer();
         _timer = new QTimer(this);
         connect(_timer, &QTimer::timeout, this, &Metronome::beep);
         quint16 interval = 60000 / beatsPerMinute() / clicksPerBeat();
         setClick(clicksPerBeat());
-        if(_elapsedTimer) {
-            delete _elapsedTimer;
-            _elapsedTimer = NULL;
-        }
         beep();
         _timer->start(interval);
-    }
-    else {
-        qDebug() << "Metronome already playing";
     }
 }
 
 void Metronome::stop() {
-    if(!_timer) {
-        qDebug() << "Metronome is not playing";
+    deleteTimer();
+    deleteElapsedTimer();
+    setBeat(0);
+}
+
+void Metronome::tap() {
+    if(!_elapsedTimer) {
+        _elapsedTimer = new QElapsedTimer();
+        _elapsedTimer->start();
     }
     else {
-        delete _timer;
-        _timer = NULL;
-        setBeat(0);
+        if(60000 / _elapsedTimer->elapsed() >= MAX_BPM) {
+            setBeatsPerMinute(MAX_BPM);
+        }
+        else if(60000 / _elapsedTimer->elapsed() <= MIN_BPM) {
+            setBeatsPerMinute(MIN_BPM);
+        }
+        else {
+            setBeatsPerMinute(60000 / _elapsedTimer->elapsed());
+        }
+        _elapsedTimer->restart();
     }
 }
 
@@ -107,22 +115,17 @@ void Metronome::updateInterval() {
     }
 }
 
-void Metronome::tap() {
-    if(!_elapsedTimer) {
-        _elapsedTimer = new QElapsedTimer();
-        _elapsedTimer->start();
+void Metronome::deleteTimer() {
+    if(_timer) {
+        delete _timer;
+        _timer = NULL;
     }
-    else {
-        if(60000 / _elapsedTimer->elapsed() >= MAX_BPM) {
-            setBeatsPerMinute(MAX_BPM);
-        }
-        else if(60000 / _elapsedTimer->elapsed() <= MIN_BPM) {
-            setBeatsPerMinute(MIN_BPM);
-        }
-        else {
-            setBeatsPerMinute(60000 / _elapsedTimer->elapsed());
-        }
-        _elapsedTimer->restart();
+}
+
+void Metronome::deleteElapsedTimer() {
+    if(_elapsedTimer) {
+        delete _elapsedTimer;
+        _elapsedTimer = NULL;
     }
 }
 
