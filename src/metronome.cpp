@@ -113,7 +113,15 @@ void Metronome::tap() {
         _elapsedTimer->start();
     }
     else {
-        setBeatsPerMinute(quint8 (60000 / _elapsedTimer->elapsed()));
+        if(60000 / _elapsedTimer->elapsed() >= MAX_BPM) {
+            setBeatsPerMinute(MAX_BPM);
+        }
+        else if(60000 / _elapsedTimer->elapsed() <= MIN_BPM) {
+            setBeatsPerMinute(MIN_BPM);
+        }
+        else {
+            setBeatsPerMinute(60000 / _elapsedTimer->elapsed());
+        }
         _elapsedTimer->restart();
     }
 }

@@ -8,6 +8,9 @@
 #include <QSound>
 #include <QTimer>
 
+#define MIN_BPM 20
+#define MAX_BPM 250
+
 class Metronome : public QObject {
     Q_OBJECT
 

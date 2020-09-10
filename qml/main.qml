@@ -103,7 +103,9 @@ ApplicationWindow {
             Button {
                 id: tapButton
                 text: "TAP"
-                onClicked: Metronome.tap()
+                TapHandler {
+                    onTapped: Metronome.tap()
+                }
             }
         }
 
